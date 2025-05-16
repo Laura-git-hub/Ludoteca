@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -42,6 +43,17 @@ public class AuthorController {
         Page<Author> page = this.authorService.findPage(dto);
 
         return new PageImpl<>(page.getContent().stream().map(e -> mapper.map(e, AuthorDto.class)).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
+    }
+
+    /* Recupera un listado de autores {@link Author}
+     * @return {@link List} de {@link AuthorDto}*/
+    @Operation(summary = "Find", description = "Method that return a list of Authors")
+    @RequestMapping(path = "", method = RequestMethod.GET)
+    public List<AuthorDto> findAll() {
+
+        List<Author> authors = this.authorService.findAll();
+
+        return authors.stream().map(e -> mapper.map(e, AuthorDto.class)).collect(Collectors.toList());
     }
 
     /**
