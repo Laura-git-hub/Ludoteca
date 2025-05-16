@@ -37,6 +37,7 @@ En este proyecto nos dedicaremos a crear el backend donde se desarrollarán los 
 ## Instrucciones de Uso 
 
 - Clona el siguiente repositorio:
+https://github.com/Laura-git-hub/Ludoteca.git
 - Abre el proyecto en IntelliJ.
 - Ejecuta la aplicación desde IntelliJ.
 
