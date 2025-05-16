@@ -39,7 +39,7 @@ public class CategoryTest {
         assertEquals(1, categories.size());
     }
 
-    //Creación de una nueva Categoría
+    //Test  de comprobación de creación de una nueva Categoría
     public static final String CATEGORY_NAME = "CAT1";
 
     @Test
