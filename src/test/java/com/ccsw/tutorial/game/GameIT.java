@@ -54,6 +54,7 @@ public class GameIT {
         return UriComponentsBuilder.fromHttpUrl(LOCALHOST + port + SERVICE_PATH).queryParam(TITLE_PARAM, "{" + TITLE_PARAM + "}").queryParam(CATEGORY_ID_PARAM, "{" + CATEGORY_ID_PARAM + "}").encode().toUriString();
     }
 
+    //Buscar un juego sin flitros
     @Test
     public void findWithoutFiltersShouldReturnAllGamesInDB() {
 
@@ -69,6 +70,7 @@ public class GameIT {
         assertEquals(GAMES_WITH_FILTER, response.getBody().size());
     }
 
+    //Buscar un título que exista
     @Test
     public void findExistsTitleShouldReturnGames() {
 
@@ -84,6 +86,7 @@ public class GameIT {
         assertEquals(GAMES_WITH_FILTER, response.getBody().size());
     }
 
+    //Buscar una categoria que exista
     @Test
     public void findExistsCategoryShouldReturnGames() {
 
@@ -99,6 +102,7 @@ public class GameIT {
         assertEquals(GAMES_WITH_FILTER, response.getBody().size());
     }
 
+    //Buscar un titulo y una categoria que existan
     @Test
     public void findExistsTitleAndCategoryShouldReturnGames() {
 
@@ -114,6 +118,7 @@ public class GameIT {
         assertEquals(GAMES_WITH_FILTER, response.getBody().size());
     }
 
+    //Buscar un titulo que no exista
     @Test
     public void findNotExistsTitleShouldReturnEmpty() {
 
@@ -129,6 +134,7 @@ public class GameIT {
         assertEquals(GAMES_WITH_FILTER, response.getBody().size());
     }
 
+    //Buscar una categoria que no exista
     @Test
     public void findNotExistsCategoryShouldReturnEmpty() {
 
@@ -144,6 +150,7 @@ public class GameIT {
         assertEquals(GAMES_WITH_FILTER, response.getBody().size());
     }
 
+    //Buscar un titulo y una categoria que no existan
     @Test
     public void findNotExistsTitleOrCategoryShouldReturnEmpty() {
 
@@ -172,6 +179,7 @@ public class GameIT {
         assertEquals(GAMES_WITH_FILTER, response.getBody().size());
     }
 
+    //Crear un juego nuevo
     @Test
     public void saveWithoutIdShouldCreateNewGame() {
 
@@ -204,6 +212,7 @@ public class GameIT {
         assertEquals(1, response.getBody().size());
     }
 
+    //Modificar un juego que exista
     @Test
     public void modifyWithExistIdShouldModifyGame() {
 
@@ -237,6 +246,7 @@ public class GameIT {
         assertEquals(EXISTS_GAME_ID, response.getBody().get(0).getId());
     }
 
+    //Modificar un juego que no exista
     @Test
     public void modifyWithNotExistIdShouldThrowException() {
 
