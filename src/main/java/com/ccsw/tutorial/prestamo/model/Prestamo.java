@@ -21,11 +21,11 @@ public class Prestamo {
     private LocalDate fechaDevolucion;
 
     @OneToOne
-    @JoinColumn(name = "game_name", nullable = false)
+    @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_name", nullable = false)
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Client client;
 
     //Getter and Setters

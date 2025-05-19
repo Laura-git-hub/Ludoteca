@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class PrestamoDto {
 
     private Long id;
-    
+
     private LocalDate fechaPrestamo;
 
     private LocalDate fechaDevolucion;
