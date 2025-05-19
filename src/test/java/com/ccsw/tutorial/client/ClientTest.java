@@ -48,7 +48,7 @@ public class ClientTest {
     public static final String CLIENT_NAME = "Rachel Loren";
 
     @Test
-    public void saveNotExistsCategoryIdShouldInsert() {
+    public void saveNotExistsClientIdShouldInsert() {
 
         ClientDto clientDto = new ClientDto();
         clientDto.setName(CLIENT_NAME);
@@ -80,9 +80,9 @@ public class ClientTest {
 
         verify(clientRepository).save(client);
 
-        System.out.println("Test ejecutado correctamente:");
-        System.out.println("Se intentó actualizar el cliente con ID = " + EXISTS_CLIENT_ID);
-        System.out.println("Nuevo nombre esperado = " + CLIENT_NAME);
+        System.out.println("Test ejecutado correctamente");
+        System.out.println("Se intentó actualizar el cliente con ID: " + EXISTS_CLIENT_ID);
+        System.out.println("NOMBRE DEL CLIENTE: " + CLIENT_NAME);
     }
 
     //Test de borrado
