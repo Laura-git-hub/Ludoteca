@@ -39,6 +39,8 @@ public class CategoryController {
         List<Category> categories = this.categoryService.findAll();
 
         return categories.stream().map(e -> mapper.map(e, CategoryDto.class)).collect(Collectors.toList());
+        //El método .values() de un Map devuelve una colección con todos los valores del mapa, sin las claves.
+        //return new ArrayList<CategoryDto>(this.categories.values());
     }
 
     /**
