@@ -139,5 +139,27 @@ public class PrestamoIT {
         }
     }
 
+    //Buscar un titulo y un cliente que exsitan
+    @Test
+    public void findExistsTitleAndClientShouldReturnPrestamos() {
+
+        int PRESTAMOS_WITH_FILTER = 1;
+        //Deveulve Ann Marie = 3 y Aventureros al tren = 2
+        Map<String, Object> params = new HashMap<>();
+        params.put(TITLE_PARAM, EXISTS_TITLE);
+        params.put(CLIENT_ID_PARAM, EXISTS_CLIENT);
+
+        ResponseEntity<List<PrestamoDto>> response = restTemplate.exchange(getUrlWithParams(), HttpMethod.GET, null, responseType, params);
+
+        assertNotNull(response);
+        assertEquals(PRESTAMOS_WITH_FILTER, response.getBody().size());
+
+        System.out.println("Datos del préstamo:");
+        response.getBody().forEach(prestamo -> {
+            System.out.println("Cliente: " + prestamo.getClient().getName());
+            System.out.println("Título: " + prestamo.getGame().getTitle());
+        });
+
+    }
 }
 

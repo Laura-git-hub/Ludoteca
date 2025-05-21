@@ -30,6 +30,16 @@ public class Prestamo {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
+    @OneToOne
+    @JoinColumn(name = "game_id", nullable = false)
+    private Game game;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
+    //Getter and setters
+
     public Category getCategory() {
         return category;
     }
@@ -45,14 +55,6 @@ public class Prestamo {
     public void setAuthor(Author author) {
         this.author = author;
     }
-
-    @OneToOne
-    @JoinColumn(name = "game_id", nullable = false)
-    private Game game;
-
-    @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Client client;
 
     //Getter and Setters
     public Long getId() {
