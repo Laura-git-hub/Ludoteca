@@ -5,6 +5,7 @@ import com.ccsw.tutorial.prestamo.model.PrestamoDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,35 +14,40 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Tag(name = "Prestamo", description = "API of Prestamo")
-@RequestMapping(value = "/prestamo") // corregido: antes decía "/pretamo"
+@RequestMapping(value = "/prestamo")
 @RestController
 @CrossOrigin(origins = "*")
 public class PrestamoController {
 
-    private final PrestamoService prestamoService;
-    private final ModelMapper mapper;
+    @Autowired
+    PrestamoService prestamoService;
 
-    // Inyección por constructor (más limpia y testable)
-    public PrestamoController(PrestamoService prestamoService, ModelMapper mapper) {
-        this.prestamoService = prestamoService;
-        this.mapper = mapper;
-    }
+    @Autowired
+    ModelMapper mapper;
 
     /**
      * Método para recuperar una lista de préstamos filtrados
      *
-     * @param idGame   ID del juego
+     * @param title  title del juego
      * @param idClient ID del cliente
-     * @param date     Fecha para comprobar si hay préstamo activo
+     * @param date  Fecha para comprobar si hay préstamo activo
      * @return Lista de PrestamoDto
      */
     @Operation(summary = "Find", description = "Returns a filtered list of Prestamos")
-    @GetMapping("")
-    public List<PrestamoDto> find(@RequestParam(value = "idGame", required = false) Long idGame, @RequestParam(value = "idClient", required = false) Long idClient,
+    @RequestMapping(path = "", method = RequestMethod.GET)
+    public List<PrestamoDto> find(@RequestParam(value = "title", required = false) String title, @RequestParam(value = "idClient", required = false) Long idClient,
             @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
-        List<Prestamo> prestamos = prestamoService.findEntities(idGame, idClient, date);
+        List<Prestamo> prestamos = prestamoService.find(title, idClient, date);
 
-        return prestamos.stream().map(prestamo -> mapper.map(prestamo, PrestamoDto.class)).collect(Collectors.toList());
+        return prestamos.stream().map(e -> mapper.map(e, PrestamoDto.class)).collect(Collectors.toList());
+    }
+
+    //Metodo para crear o actualizar
+    @Operation(summary = "Save or Update", description = "Method that saves or updates a Prestamo")
+    @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
+    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody PrestamoDto dto) {
+
+        prestamoService.save(id, dto);
     }
 }

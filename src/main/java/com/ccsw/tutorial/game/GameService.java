@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface GameService {
 
+    Game get(Long id);
+
     /**
      * Recupera los juegos filtrando opcionalmente por título y/o categoría
      *

@@ -1,5 +1,7 @@
 package com.ccsw.tutorial.prestamo.model;
 
+import com.ccsw.tutorial.author.model.Author;
+import com.ccsw.tutorial.category.model.Category;
 import com.ccsw.tutorial.client.model.Client;
 import com.ccsw.tutorial.game.model.Game;
 import jakarta.persistence.*;
@@ -14,11 +16,35 @@ public class Prestamo {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "fechaPrestamo", nullable = false)
+    @Column(name = "fecha_prestamo", nullable = false)
     private LocalDate fechaPrestamo;
 
-    @Column(name = "fechaDevolucion", nullable = false)
+    @Column(name = "fecha_devolucion", nullable = false)
     private LocalDate fechaDevolucion;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
 
     @OneToOne
     @JoinColumn(name = "game_id", nullable = false)
@@ -37,20 +63,20 @@ public class Prestamo {
         this.id = id;
     }
 
-    public LocalDate getFechaPrestamo() {
-        return fechaPrestamo;
-    }
-
-    public void setFechaPrestamo(LocalDate fechaPrestamo) {
-        this.fechaPrestamo = fechaPrestamo;
-    }
-
     public LocalDate getFechaDevolucion() {
         return fechaDevolucion;
     }
 
     public void setFechaDevolucion(LocalDate fechaDevolucion) {
         this.fechaDevolucion = fechaDevolucion;
+    }
+
+    public LocalDate getFechaPrestamo() {
+        return fechaPrestamo;
+    }
+
+    public void setFechaPrestamo(LocalDate fechaPrestamo) {
+        this.fechaPrestamo = fechaPrestamo;
     }
 
     public Game getGame() {
