@@ -7,9 +7,11 @@ import com.ccsw.tutorial.common.criteria.SearchCriteria;
 import com.ccsw.tutorial.game.GameService;
 import com.ccsw.tutorial.prestamo.model.Prestamo;
 import com.ccsw.tutorial.prestamo.model.PrestamoDto;
+import com.ccsw.tutorial.prestamo.model.PrestamoSearchDto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,12 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     @Autowired
     CategoryService categoryService;
+
+    //Listado paginado
+    @Override
+    public Page<Prestamo> findPage(PrestamoSearchDto dto) {
+        return this.prestamoRepository.findAll(dto.getPageable().getPageable());
+    }
 
     @Override
     public List<Prestamo> find(String title, Long idClient, LocalDate fechaPrestamo) {

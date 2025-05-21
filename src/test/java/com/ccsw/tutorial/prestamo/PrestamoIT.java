@@ -1,12 +1,16 @@
 package com.ccsw.tutorial.prestamo;
 
+import com.ccsw.tutorial.common.pagination.PageableRequest;
+import com.ccsw.tutorial.config.ResponsePage;
 import com.ccsw.tutorial.prestamo.model.PrestamoDto;
+import com.ccsw.tutorial.prestamo.model.PrestamoSearchDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -26,6 +30,7 @@ public class PrestamoIT {
     public static final String LOCALHOST = "http://localhost:";
     public static final String SERVICE_PATH = "/prestamo";
 
+    //Listado Filtrado
     public static final Long EXISTS_PRESTAMO_ID = 1L;
     public static final Long NOT_EXISTS_PRESTAMO_ID = 0L;
     private static final String NOT_EXISTS_TITLE = "NotExists";
@@ -37,13 +42,22 @@ public class PrestamoIT {
     private static final String TITLE_PARAM = "title";
     private static final String CLIENT_ID_PARAM = "idClient";
 
+    //Listado Páginado
+    private static final int TOTAL_PRESTAMOS = 5;
+    private static final int PAGE_SIZE = 5;
+
     @LocalServerPort
     private int port;
 
     @Autowired
     private TestRestTemplate restTemplate;
 
+    //Listado Filtrado
     ParameterizedTypeReference<List<PrestamoDto>> responseType = new ParameterizedTypeReference<List<PrestamoDto>>() {
+    };
+
+    //Lisado Paginado
+    private final ParameterizedTypeReference<ResponsePage<PrestamoDto>> responseTypePage = new ParameterizedTypeReference<>() {
     };
 
     private String getUrlWithParams() {
@@ -66,6 +80,7 @@ public class PrestamoIT {
 
     //Buscar un prestamo sin filtros
 
+    //------------------TESTS FILTRADO------------------------//
     @Test
     public void findWithoutFiltersShouldReturnAllPrestamosInDB() {
 
@@ -161,5 +176,28 @@ public class PrestamoIT {
         });
 
     }
+
+    //------------------TESTS PAGINADO------------------------//
+    @Test
+    public void findFirstPageWithFiveSizeShouldReturnFirstFiveResults() {
+
+        PrestamoSearchDto searchDto = new PrestamoSearchDto();
+        searchDto.setPageable(new PageableRequest(0, PAGE_SIZE));
+
+        ResponseEntity<ResponsePage<PrestamoDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(searchDto), responseTypePage);
+
+        assertNotNull(response);
+        assertEquals(TOTAL_PRESTAMOS, response.getBody().getTotalElements());
+        assertEquals(PAGE_SIZE, response.getBody().getContent().size());
+
+        // Mostrar los datos de la respuesta
+        System.out.println("Total elementos: " + response.getBody().getTotalElements());
+        System.out.println("Contenido de la página:");
+
+        response.getBody().getContent().forEach(prestamo -> System.out.println(prestamo));
+    }
+
 }
+
+
 
