@@ -40,3 +40,5 @@ INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, cate
 VALUES ('2025-02-21', '2025-06-23', 4, 4, 4, 4);
 INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, category_id, author_id)
 VALUES ('2025-11-26', '2025-12-21', 5, 5, 5, 5);
+INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, category_id, author_id)
+VALUES ('2025-12-01', '2026-01-01', 6, 1, 1, 1);

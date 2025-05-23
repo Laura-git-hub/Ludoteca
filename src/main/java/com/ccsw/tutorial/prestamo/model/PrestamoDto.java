@@ -4,8 +4,11 @@ import com.ccsw.tutorial.author.model.AuthorDto;
 import com.ccsw.tutorial.category.model.CategoryDto;
 import com.ccsw.tutorial.client.model.ClientDto;
 import com.ccsw.tutorial.game.model.GameDto;
+import com.ccsw.tutorial.prestamo.validation.FechaPrestamoValida;
 
 import java.time.LocalDate;
+
+@FechaPrestamoValida
 
 public class PrestamoDto {
 
@@ -79,4 +82,6 @@ public class PrestamoDto {
     public void setClient(ClientDto client) {
         this.client = client;
     }
+
 }
+
