@@ -5,6 +5,7 @@ import com.ccsw.tutorial.prestamo.model.PrestamoDto;
 import com.ccsw.tutorial.prestamo.model.PrestamoSearchDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,19 +53,41 @@ public class PrestamoController {
      * @param dto dto de búsqueda
      * @return {@link Page} de {@link PrestamoDto}
      */
-    @Operation(summary = "Find Page", description = "Method that return a page of Prestmamo")
+   /* @Operation(summary = "Find Page", description = "Method that return a page of Prestmamo")
     @RequestMapping(path = "", method = RequestMethod.POST)
     public Page<PrestamoDto> findPage(@RequestBody PrestamoSearchDto dto) {
 
         Page<Prestamo> page = this.prestamoService.findPage(dto);
+        return new PageImpl<>(page.getContent().stream().map(e -> mapper.map(e, PrestamoDto.class)).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
+
+    */
+    @Operation(summary = "Find Page", description = "Method that returns a page of Prestamo")
+    @PostMapping
+    public Page<PrestamoDto> findPage(@RequestParam(value = "title", required = false) String gameTitle, @RequestParam(value = "name", required = false) String clientName, @RequestParam(value = "date", required = false) LocalDate date,
+            @RequestBody PrestamoSearchDto dto) {
+
+        Page<Prestamo> page = prestamoService.findPage(gameTitle, clientName, date, dto); // Este método debe existir en servicio
+
         return new PageImpl<>(page.getContent().stream().map(e -> mapper.map(e, PrestamoDto.class)).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
     }
 
     //Metodo para crear o actualizar
     @Operation(summary = "Save or Update", description = "Method that saves or updates a Prestamo")
     @RequestMapping(path = { "", "/{id}" }, method = RequestMethod.PUT)
-    public void save(@PathVariable(name = "id", required = false) Long id, @RequestBody PrestamoDto dto) {
+    public void save(@PathVariable(name = "id", required = false) Long id, @Valid @RequestBody PrestamoDto dto) {
 
         prestamoService.save(id, dto);
+    }
+
+    /**
+     * Método para eliminar un {@link Prestamo}
+     *
+     * @param id PK de la entidad
+     */
+    @Operation(summary = "Delete", description = "Method that deletes a Prestamo")
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable("id") Long id) throws Exception {
+
+        this.prestamoService.delete(id);
     }
 }

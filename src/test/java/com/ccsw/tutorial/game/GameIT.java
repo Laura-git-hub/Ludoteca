@@ -34,7 +34,7 @@ public class GameIT {
     public static final Long NOT_EXISTS_GAME_ID = 0L;
     private static final String NOT_EXISTS_TITLE = "NotExists";
     private static final String EXISTS_TITLE = "Aventureros";
-    private static final String NEW_TITLE = "Nuevo juego";
+    public static final String NEW_TITLE = "Nuevo juego";
     private static final Long NOT_EXISTS_CATEGORY = 0L;
     private static final Long EXISTS_CATEGORY = 3L;
 

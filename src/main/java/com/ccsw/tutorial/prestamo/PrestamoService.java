@@ -16,6 +16,9 @@ public interface PrestamoService {
      * @param dto dto de búsqueda
      * @return {@link Page} de {@link Prestamo}
      */
+
+    // Page<Prestamo> findPage(String gameTitle, String clientName, LocalDate date, PrestamoSearchDto dto);}
+
     Page<Prestamo> findPage(PrestamoSearchDto dto);
 
     /**
@@ -27,5 +30,20 @@ public interface PrestamoService {
 
     List<Prestamo> find(String title, Long idCliente, LocalDate fechaPrestamo);
 
+    /**
+     * Método para crear o actualizar un {@link Prestamo}
+     *
+     * @param id PK de la entidad
+     */
     void save(Long id, PrestamoDto dto);
+
+    /**
+     * Método para eliminar un {@link Prestamo}
+     *
+     * @param id PK de la entidad
+     */
+    void delete(Long id) throws Exception;
+
+    Page<Prestamo> findPage(String gameTitle, String clientName, LocalDate date, PrestamoSearchDto dto);
 }
+

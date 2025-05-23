@@ -74,7 +74,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         return prestamoRepository.findAll(spec);
     }*/
 
-    @Override
+    /*@Override
     public void save(Long id, PrestamoDto dto) {
         Prestamo prestamo;
 
@@ -93,9 +93,63 @@ public class PrestamoServiceImpl implements PrestamoService {
 
         this.prestamoRepository.save(prestamo);
 
+    }*/
+
+    @Override
+    public void delete(Long id) throws Exception {
+        if (this.prestamoRepository.findById(id).orElse(null) == null) {
+            throw new Exception("Not exists");
+        }
+
+        this.prestamoRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Prestamo> findPage(String gameTitle, String clientName, LocalDate date, PrestamoSearchDto dto) {
+        return this.prestamoRepository.findAll(dto.getPageable().getPageable());
+    }
+
+    //APLICAR VALIDACION
+    @Override
+    public void save(Long id, PrestamoDto dto) {
+        // Validación de solapamiento de juego
+        List<Prestamo> solapados = prestamoRepository.findPrestamosSolapados(dto.getGame().getId(), dto.getFechaPrestamo(), dto.getFechaDevolucion());
+
+        boolean conflicto = solapados.stream().anyMatch(p -> !p.getClient().getId().equals(dto.getClient().getId()) || (id == null || !p.getId().equals(id)));
+
+        if (conflicto) {
+            throw new IllegalArgumentException("El juego ya está prestado a otro cliente en ese rango de fechas.");
+        }
+
+        // Validación de máximo 2 préstamos por cliente en el mismo rango
+        List<Prestamo> prestamosCliente = prestamoRepository.findPrestamosClienteSolapados(dto.getClient().getId(), dto.getFechaPrestamo(), dto.getFechaDevolucion());
+
+        long totalPrestamos = prestamosCliente.stream().filter(p -> id == null || !p.getId().equals(id)) // excluir el préstamo actual si es edición
+                .count();
+
+        if (totalPrestamos >= 2) {
+            throw new IllegalArgumentException("El cliente ya tiene 2 préstamos activos en ese rango de fechas.");
+        }
+
+        // Crear o actualizar el préstamo
+        Prestamo prestamo;
+
+        if (id == null) {
+            prestamo = new Prestamo();
+        } else {
+            prestamo = this.prestamoRepository.findById(id).orElse(null);
+        }
+
+        BeanUtils.copyProperties(dto, prestamo, "id", "game", "client", "author", "category");
+
+        prestamo.setGame(gameService.get(dto.getGame().getId()));
+        prestamo.setClient(clientService.get(dto.getClient().getId()));
+        prestamo.setAuthor(authorService.get(dto.getAuthor().getId()));
+        prestamo.setCategory(categoryService.get(dto.getCategory().getId()));
+
+        this.prestamoRepository.save(prestamo);
     }
 }
-
 
 
 

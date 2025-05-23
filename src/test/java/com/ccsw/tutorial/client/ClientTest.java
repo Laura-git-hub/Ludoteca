@@ -45,7 +45,7 @@ public class ClientTest {
     @Test
     public void saveNewClientShouldCreate() {
         ClientDto clientDto = new ClientDto();
-        clientDto.setName("Silvia Sanz");
+        clientDto.setName("Elisa Infantino");
 
         when(clientRepository.findByName("Silvia Sanz")).thenReturn(Optional.empty());
 
