@@ -16,5 +16,5 @@ public interface GameRepository extends CrudRepository<Game, Long>, JpaSpecifica
     @Override
     @EntityGraph(attributePaths = { "category", "author" })
     List<Game> findAll(Specification<Game> spec);
-
+    
 }

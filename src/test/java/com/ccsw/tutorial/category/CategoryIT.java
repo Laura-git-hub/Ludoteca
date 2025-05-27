@@ -44,7 +44,7 @@ public class CategoryIT {
     }
 
     //Construye un nuevo objeto, recupera lista de categorías y filtra
-    public static final Long NEW_CATEGORY_ID = 4L;
+    public static final Long NEW_CATEGORY_ID = 6L;
     public static final String NEW_CATEGORY_NAME = "CAT4";
 
     @Test
@@ -57,7 +57,7 @@ public class CategoryIT {
 
         ResponseEntity<List<CategoryDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
         assertNotNull(response);
-        assertEquals(4, response.getBody().size());
+        assertEquals(6, response.getBody().size());
 
         CategoryDto categorySearch = response.getBody().stream().filter(item -> item.getId().equals(NEW_CATEGORY_ID)).findFirst().orElse(null);
         //Categoria creada o no
@@ -71,7 +71,7 @@ public class CategoryIT {
     }
 
     //Test de modificación
-    public static final Long MODIFY_CATEGORY_ID = 3L;
+    public static final Long MODIFY_CATEGORY_ID = 5L;
 
     @Test
     public void modifyWithExistIdShouldModifyCategory() {
@@ -83,7 +83,7 @@ public class CategoryIT {
 
         ResponseEntity<List<CategoryDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
         assertNotNull(response);
-        assertEquals(3, response.getBody().size());
+        assertEquals(5, response.getBody().size());
 
         CategoryDto categorySearch = response.getBody().stream().filter(item -> item.getId().equals(MODIFY_CATEGORY_ID)).findFirst().orElse(null);
         assertNotNull(categorySearch);
