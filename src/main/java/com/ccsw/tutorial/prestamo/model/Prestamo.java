@@ -30,7 +30,7 @@ public class Prestamo {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 

@@ -74,7 +74,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         return prestamoRepository.findAll(spec);
     }*/
 
-    /*@Override
+    @Override
     public void save(Long id, PrestamoDto dto) {
         Prestamo prestamo;
 
@@ -93,7 +93,7 @@ public class PrestamoServiceImpl implements PrestamoService {
 
         this.prestamoRepository.save(prestamo);
 
-    }*/
+    }
 
     @Override
     public void delete(Long id) throws Exception {
@@ -110,7 +110,7 @@ public class PrestamoServiceImpl implements PrestamoService {
     }
 
     //APLICAR VALIDACION
-    @Override
+    /*@Override
     public void save(Long id, PrestamoDto dto) {
         // Validación de solapamiento de juego
         List<Prestamo> solapados = prestamoRepository.findPrestamosSolapados(dto.getGame().getId(), dto.getFechaPrestamo(), dto.getFechaDevolucion());
@@ -148,7 +148,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         prestamo.setCategory(categoryService.get(dto.getCategory().getId()));
 
         this.prestamoRepository.save(prestamo);
-    }
+    }*/
 }
 
 

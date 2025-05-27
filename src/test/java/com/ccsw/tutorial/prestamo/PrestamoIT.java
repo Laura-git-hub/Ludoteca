@@ -52,13 +52,13 @@ public class PrestamoIT {
     private static final int PAGE_SIZE = 5;
     public static final Long MODIFY_PRESTAMO_ID = 2L;
     public static final Long DELETE_PRESTAMO_ID = 1L;
-    public static final LocalDate NEW_PRESTAMO_DATE = LocalDate.parse("2025-02-11");
+
     //public static final Long NEW_PRESTAMO_ID = 8L;
 
-    public static final Long EXISTS_GAME_ID = 1L;
+    // public static final Long EXISTS_GAME_ID = 1L;
     public static final Long EXISTS_AUTHOR_ID = 1L;
     public static final Long EXISTS_CATEGORY_ID = 2L;
-    private static final Long NEW_GAME = 1L;
+    // private static final Long NEW_GAME = 1L;
     private static final Long NEW_CLIENT = 8L;
     private static final Long NEW_PRESTAMO_ID = 8L;
 
@@ -269,28 +269,39 @@ public class PrestamoIT {
 
     */
 
+    public static final LocalDate NEW_PRESTAMO_DATE1 = LocalDate.parse("2025-02-11");
+    public static final LocalDate NEW_PRESTAMO_DATE2 = LocalDate.parse("2025-10-11");
+
     //TEST PARA GURADAR PRESTAMO NO PASA
     @Test
+
     public void saveWithoutIdShouldCreateNewPrestamo() {
 
         long newPrestamoId = TOTAL_PRESTAMOS + 1;
         long newPrestamoSize = TOTAL_PRESTAMOS + 1;
 
         PrestamoDto dto = new PrestamoDto();
-        dto.setFechaPrestamo(NEW_PRESTAMO_DATE);
-        dto.setFechaDevolucion(NEW_PRESTAMO_DATE);
+        dto.setFechaPrestamo(NEW_PRESTAMO_DATE1);
+        dto.setFechaDevolucion(NEW_PRESTAMO_DATE2);
 
         GameDto dtoGame = new GameDto();
-        dtoGame.setTitle("Shine");
+        dtoGame.setId(1L);
+        /*dtoGame.setTitle("On Mars");
+        dtoGame.setAge("14");*/
 
         ClientDto dtoClient = new ClientDto();
-        dtoClient.setId(7L);
+        dtoClient.setId(3L);
 
         AuthorDto dtoAuthor = new AuthorDto();
-        dtoAuthor.setId(8L);
+        dtoAuthor.setId(5L);
 
         CategoryDto dtoCategory = new CategoryDto();
-        dtoCategory.setName("Aventura Game");
+        dtoCategory.setId(2L);
+
+        dto.setGame(dtoGame);
+        dto.setClient(dtoClient);
+        dto.setCategory(dtoCategory);
+        dto.setAuthor(dtoAuthor);
 
         restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
 
@@ -304,8 +315,11 @@ public class PrestamoIT {
 
         PrestamoDto prestamo = response.getBody().getContent().stream().filter(item -> item.getId().equals(newPrestamoId)).findFirst().orElse(null);
         assertNotNull(prestamo);
-        assertEquals(NEW_PRESTAMO_DATE, prestamo.getFechaPrestamo());
+        assertEquals(NEW_PRESTAMO_DATE1, prestamo.getFechaPrestamo());
     }
+}
+
+
 
 
     /*@Test
@@ -374,4 +388,4 @@ public class PrestamoIT {
 }
 */
 
-}
+
