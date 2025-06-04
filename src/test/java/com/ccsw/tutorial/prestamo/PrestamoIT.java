@@ -16,6 +16,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -61,6 +62,10 @@ public class PrestamoIT {
     // private static final Long NEW_GAME = 1L;
     private static final Long NEW_CLIENT = 8L;
     private static final Long NEW_PRESTAMO_ID = 8L;
+
+    public static final Long MODIFY_PRETAMO_ID = 3L;
+    private static final LocalDate NEW_PRESTAMO_FECHA_PRESTAMO = LocalDate.ofEpochDay(2029 - 06 - 06);
+    private static final LocalDate NEW_PRESTAMO_FECHA_DEVOLUCION = LocalDate.ofEpochDay(2029 - 06 - 20);
 
     @LocalServerPort
     private int port;
@@ -251,24 +256,6 @@ public class PrestamoIT {
         });
     }
 
-   /* @Test
-    public void saveShouldCreateNewPrestamo() {
-        long newPrestamoId = TOTAL_PRESTAMOS + 1;
-        long newPrestamoSize = TOTAL_PRESTAMOS + 1;
-
-        NEW_GAME.setTitle(NEW_TITLE);
-        NEW_GAME.setId(2L);
-        NEW_CLIENT.setName(NEW_CLIENT_NAME);
-        NEW_CLIENT.setClientId(2L);
-        PrestamoDto dto = new PrestamoDto();
-        dto.setGame(NEW_GAME);
-        dto.setClient(NEW_CLIENT);
-        dto.setFechaPrestamo(NEW_PRESTAMO_DATE);
-        dto.setFechaDevolucion(NEW_PRESTAMO_DATE);
-        restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
-
-    */
-
     public static final LocalDate NEW_PRESTAMO_DATE1 = LocalDate.parse("2025-02-11");
     public static final LocalDate NEW_PRESTAMO_DATE2 = LocalDate.parse("2025-10-11");
 
@@ -317,17 +304,32 @@ public class PrestamoIT {
         assertNotNull(prestamo);
         assertEquals(NEW_PRESTAMO_DATE1, prestamo.getFechaPrestamo());
     }
-}
 
-
-
-
-    /*@Test
+    @Test
     public void modifyWithExistIdShouldModifyPrestamo() {
 
         PrestamoDto dto = new PrestamoDto();
-        dto.setFechaPrestamo(PrestamoIT.NEW_PRESTAMO_DATE);
-        dto.setFechaDevolucion(PrestamoIT.NEW_PRESTAMO_DATE);
+        dto.setFechaPrestamo(NEW_PRESTAMO_FECHA_PRESTAMO);
+        dto.setFechaDevolucion(NEW_PRESTAMO_FECHA_DEVOLUCION);
+
+        GameDto dtoGame = new GameDto();
+        dtoGame.setId(1L);
+        /*dtoGame.setTitle("On Mars");
+        dtoGame.setAge("14");*/
+
+        ClientDto dtoClient = new ClientDto();
+        dtoClient.setId(3L);
+
+        AuthorDto dtoAuthor = new AuthorDto();
+        dtoAuthor.setId(5L);
+
+        CategoryDto dtoCategory = new CategoryDto();
+        dtoCategory.setId(2L);
+
+        dto.setGame(dtoGame);
+        dto.setClient(dtoClient);
+        dto.setCategory(dtoCategory);
+        dto.setAuthor(dtoAuthor);
 
         restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + MODIFY_PRESTAMO_ID, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
 
@@ -340,52 +342,48 @@ public class PrestamoIT {
         assertEquals(TOTAL_PRESTAMOS, response.getBody().getTotalElements());
         PrestamoDto prestamo = response.getBody().getContent().stream().filter(item -> item.getId().equals(MODIFY_PRESTAMO_ID)).findFirst().orElse(null);
         assertNotNull(prestamo);
-        assertEquals(NEW_PRESTAMO_DATE, prestamo.getFechaPrestamo());
-        assertEquals(NEW_PRESTAMO_DATE, prestamo.getFechaDevolucion());
+        assertEquals(NEW_PRESTAMO_FECHA_PRESTAMO, prestamo.getFechaPrestamo());
+        assertEquals(NEW_PRESTAMO_FECHA_DEVOLUCION, prestamo.getFechaDevolucion());
 
+        System.out.println("=== Prestamo Modificado ===");
+        System.out.println("ID: " + prestamo.getId());
+        System.out.println("Fecha Préstamo: " + prestamo.getFechaPrestamo());
+        System.out.println("Fecha Devolución: " + prestamo.getFechaDevolucion());
+        System.out.println("Game ID: " + (prestamo.getGame() != null ? prestamo.getGame().getId() : "null"));
+        System.out.println("Client ID: " + (prestamo.getClient() != null ? prestamo.getClient().getId() : "null"));
+        System.out.println("Author ID: " + (prestamo.getAuthor() != null ? prestamo.getAuthor().getId() : "null"));
 
-    /*@Test
-    public void modifyWithExistIdShouldModifyPrestamo() {
-        PrestamoDto dto = new PrestamoDto();
-        dto.setFechaPrestamo(NEW_PRESTAMO_DATE);
-        dto.setFechaDevolucion(NEW_PRESTAMO_DATE);
+    }
 
-        // Seteamos todos los objetos necesarios con IDs válidos
-        GameDto game = new GameDto();
-        game.setId(EXISTS_GAME_ID); // Asegúrate de que este ID exista
-        dto.setGame(game);
+    @Test
+    public void deleteWithExistsIdShouldDeletePrestamo() {
 
-        ClientDto client = new ClientDto();
-        client.setId(EXISTS_CLIENT); // Asegúrate de que este ID exista
-        dto.setClient(client);
+        long newPrestamosSize = TOTAL_PRESTAMOS - 1;
 
-        AuthorDto author = new AuthorDto();
-        author.setId(EXISTS_AUTHOR_ID); // Asegúrate de que este ID exista
-        dto.setAuthor(author);
+        restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + DELETE_PRESTAMO_ID, HttpMethod.DELETE, null, Void.class);
 
-        CategoryDto category = new CategoryDto();
-        category.setId(EXISTS_CATEGORY_ID); // Asegúrate de que este ID exista
-        dto.setCategory(category);
-
-        // Ejecutamos la modificación
-        restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + MODIFY_PRESTAMO_ID, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
-
-        // Buscamos el préstamo modificado
         PrestamoSearchDto searchDto = new PrestamoSearchDto();
-        searchDto.setPageable(new PageableRequest(0, PAGE_SIZE));
+        searchDto.setPageable(new PageableRequest(0, TOTAL_PRESTAMOS));
 
         ResponseEntity<ResponsePage<PrestamoDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.POST, new HttpEntity<>(searchDto), responseTypePage);
 
         assertNotNull(response);
-        assertEquals(TOTAL_PRESTAMOS, response.getBody().getTotalElements());
+        assertEquals(newPrestamosSize, response.getBody().getTotalElements());
+    }
 
-        PrestamoDto prestamo = response.getBody().getContent().stream().filter(item -> item.getId().equals(MODIFY_PRESTAMO_ID)).findFirst().orElse(null);
-
-        assertNotNull(prestamo);
-        assertEquals(NEW_PRESTAMO_DATE, prestamo.getFechaPrestamo());
-        assertEquals(NEW_PRESTAMO_DATE, prestamo.getFechaDevolucion());
+    @Test
+    public void deleteWithNotExistsIdShouldThrowException() {
+        long deletePrestamoId = TOTAL_PRESTAMOS + 1;
+        ResponseEntity<?> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + deletePrestamoId, HttpMethod.DELETE, null, Void.class);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }
-*/
+
+
+
+
+
+
+
 
 

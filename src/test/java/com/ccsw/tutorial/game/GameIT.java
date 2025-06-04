@@ -34,7 +34,7 @@ public class GameIT {
     public static final Long NOT_EXISTS_GAME_ID = 0L;
     private static final String NOT_EXISTS_TITLE = "NotExists";
     private static final String EXISTS_TITLE = "Aventureros";
-    public static final String NEW_TITLE = "Nuevo juego";
+    public static final String NEW_TITLE = "Nuevo Juego";
     private static final Long NOT_EXISTS_CATEGORY = 0L;
     private static final Long EXISTS_CATEGORY = 3L;
 
@@ -184,15 +184,15 @@ public class GameIT {
     public void saveWithoutIdShouldCreateNewGame() {
 
         GameDto dto = new GameDto();
+        dto.setTitle(NEW_TITLE);
+        dto.setAge("18");
+
         AuthorDto authorDto = new AuthorDto();
+        dto.setAuthor(authorDto);
         authorDto.setId(1L);
 
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(1L);
-
-        dto.setTitle(NEW_TITLE);
-        dto.setAge("18");
-        dto.setAuthor(authorDto);
         dto.setCategory(categoryDto);
 
         Map<String, Object> params = new HashMap<>();

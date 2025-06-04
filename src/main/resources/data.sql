@@ -18,7 +18,8 @@ INSERT INTO author (name, nationality) VALUES ('Phil Walker-Harding', 'US');
 INSERT INTO game (title, age, category_id, author_id) VALUES ('On Mars', '14', 1, 2);
 INSERT INTO game (title, age, category_id, author_id) VALUES ('Aventureros al tren', '8', 3, 1);
 INSERT INTO game (title, age, category_id, author_id) VALUES ('1920: Wall Street', '12', 1, 4);
-INSERT INTO game (title, age, category_id, author_id) VALUES ('Barrage', '14', 1, 3);
+INSERT INTO game (title, age,
+ category_id, author_id) VALUES ('Barrage', '14', 1, 3);
 INSERT INTO game (title, age, category_id, author_id) VALUES ('Los viajes de Marco Polo', '12', 1, 3);
 INSERT INTO game (title, age, category_id, author_id) VALUES ('Azul', '8', 3, 5);
 
@@ -31,14 +32,14 @@ INSERT INTO client (name) VALUES ('Sarah Ellerboon');
 
 -- Insert prestamos
 INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, category_id, author_id)
-VALUES ('2025-05-21', '2026-06-21', 1, 1, 1, 1);
+VALUES ('2025-06-06', '2026-06-20', 1, 1, 1, 1);
 INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, category_id, author_id)
-VALUES ('2025-06-21', '2025-08-10', 2, 3, 2, 2);
+VALUES ('2025-05-05', '2025-05-19', 2, 3, 2, 2);
 INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, category_id, author_id)
-VALUES ('2025-07-22', '2025-09-29', 3, 2, 3, 3);
+VALUES ('2025-04-04', '2025-06-18', 3, 2, 3, 3);
 INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, category_id, author_id)
-VALUES ('2025-02-21', '2025-06-23', 4, 4, 4, 4);
+VALUES ('2025-03-03', '2025-03-17', 4, 4, 4, 4);
 INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, category_id, author_id)
-VALUES ('2025-11-26', '2025-12-21', 5, 5, 5, 5);
+VALUES ('2025-03-02', '2025-03-16', 5, 5, 5, 5);
 INSERT INTO prestamo (fecha_prestamo, fecha_devolucion, game_id, client_id, category_id, author_id)
-VALUES ('2025-12-01', '2026-01-01', 6, 1, 1, 1);
+VALUES ('2025-05-01', '2026-05-15', 6, 1, 1, 1);
